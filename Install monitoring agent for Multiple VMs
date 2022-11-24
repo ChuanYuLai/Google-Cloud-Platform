@@ -1,0 +1,43 @@
+## Agent Policy
+
+The following instructions will create a Agent Policies to ensure that the Monitoring Agent is installed correctly and upgraded automatically.
+
+## Steps to create an agent policy：
+1. Download set-permissions.sh to assign the appropriate predefined roles to the GCE user and service account.
+2. Create a agent policy.
+3. Check if the monitoring agent is installed successfully.
+
+## gcloud command:
+```
+$ gcloud components install beta
+$ gcloud components list
+
+#check agent policies
+$ gcloud alpha compute instances ops-agents policies list
+
+#add set-permissions.sh to a user
+$ bash set-permissions.sh --project=abc
+--iam-user=abc@gmail.com
+--iam-permission-role=guestPolicyAdmin > ./ops-agent-policy.log
+
+#create a agent policy，and choose a agent version
+$ gcloud alpha compute instances \ ops-agents policies create ops-agents-policy-safe-rollout \ --agent-rules="type=logging,version=current-major,package-state=installed,enable-autoupgrade=true;type=metrics,version=current-major,package-state=installed,enable-autoupgrade=true" \
+--os-types=short-name=debian,version=10,short-name=debian,version=9 \ --project abc
+
+#apply the agent policy，apply in asia-east1-b zone
+$ gcloud beta compute instances \
+    ops-agents policies update ops-agents-policy-safe-rollout \
+    --zones=asia-east1-b
+
+
+
+#check if the monitoring agent installed successfully.
+$ sudo service stackdriver-agent status # check agent status
+$ sudo dpkg-query -L stackdriver-agent # list installed files
+
+# pick /usr/share/doc/stackdriver-agent/changelog.gz from output
+$ stat /usr/share/doc/stackdriver-agent/changelog.gz
+
+#delete agent policy
+$ gcloud beta compute instances ops-agents policies delete $policy-id
+```

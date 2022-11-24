@@ -1,0 +1,24 @@
+## GCP Live Stream API
+
+1. Enable the Live Stream API.
+2. Create a service account and grant it "Live Stream Editor" and "Storage Admin" roles, and download the json key.
+3. Set up and check the environment variables to make sure the json key is brought in correctly.
+```
+gcloud auth application-default print-access-token
+```
+4. Create a GCS bucket, set it to public acess, add "allUser" to "Storage Object Viewer" in PERMISSIONS
+5. Install ffmpeg
+6. Create input endpoint
+7. Check if the input endpoint has been created, it takes about 10 minutes to create
+8. Create channel
+9. Check the channel status
+10. Start the channel 
+11. Send the content, paste the rtmp that we created
+12. Check for a single m3u8 file and multiple sliced ts files, use the main.m3u8 file link to view the live content.
+However, the browser must first have a package installed that supports m3u8 playback
+https://storage.googleapis.com/live-steam-tset/main.m3u8
+
+
+## Source
+- https://cloud.google.com/livestream/docs/overview
+- https://cloud.google.com/livestream/docs/quickstarts/quickstart-hls#check_for_result
