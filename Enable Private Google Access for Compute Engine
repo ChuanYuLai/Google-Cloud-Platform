@@ -1,0 +1,26 @@
+## GCP Private Google Access
+
+1. Disable GCE Public IP, reserve internal IP
+Enable GCE access scopes for BigQuery
+
+2. The following error will occur If you do not enable GCE access scopes for BigQuery:
+```
+BigQuery error in ls operation: Insufficient Permission
+```
+
+3. Go to VPC networks > Select Region > Enable Private Google Access
+
+4. SSH into GCE testing by using cp
+>**Note**:
+GCE can't access BigQuery without enable Private Google Access
+
+>**Note**:
+BigQuery API cannot be called without modify Compute Engine access scopes 
+
+>**Note**:
+To change Compute Engine access scopes, Compute Engine needs to be shut down
+
+5. If you need to deny all egress traffic, you also need to set up Routes and DNS, because all traffic will be sent to 0.0.0.0/0 by default, but if you set up to deny all egress traffic, you need to routing to Private Google Acess ip: 199.36.153.8/30.
+
+## Source
+https://cloud.google.com/vpc/docs/configure-private-google-access
